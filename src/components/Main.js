@@ -1,5 +1,5 @@
 import React from 'react';
-import { api } from '../utils/Api';
+import { api } from '../utils/api';
 import Card from './Card';
 import edit from "../images/Edit_Button.svg";
 import add from "../images/Vector_button.svg";
@@ -41,9 +41,9 @@ class Main extends React.Component {
             <img className="profile__image" src={this.state.userAvatar}
               onClick={this.props.onEditAvatar}
               alt="Аватар" />
-          </div>.
+          </div>
 
-                <div className="profile__info">
+          <div className="profile__info">
             <h1 className="profile__title">{this.state.userName}</h1>
             <img className="profile__button-edit" src={edit} alt="редактирование кнопки" onClick={this.props.onEditProfile}
             />
