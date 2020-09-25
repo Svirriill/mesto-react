@@ -26,23 +26,13 @@ function App() {
   });
 
   React.useEffect(() => {
-    api
-      .getUserInfo()
+    Promise.all([api.getInitialCards(), api.getUserInfo()])
       .then((res) => {
-        setCurrentUser(res);
+        setCurrentUser(res[1]);
+        setCards(res[0]);
       })
       .catch((err) => console.log(err));
   }, []);
-
-  React.useEffect(() => {
-    api
-      .getInitialCards()
-      .then((cardData) => {
-        setCards(cardData);
-      })
-      .catch((err) => console.log(err));
-  }, []);
-
 
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
@@ -58,9 +48,12 @@ function App() {
   function handleConfirm() {
     api
       .deleteCard(cardToDelete._id)
-      .then(() => setCards(cards.filter((item) => item !== cardToDelete)))
+      .then(() => {
+        setCards(cards.filter((item) => item !== cardToDelete));
+        closeAllPopups();
+      }
+      )
       .catch((err) => console.log(err));
-    closeAllPopups();
   }
 
   function handleCardDelete(card) {
@@ -102,10 +95,12 @@ function App() {
     setLoading(true);
     api
       .patchUserInfo(userData)
-      .then((newUser) => setCurrentUser(newUser))
+      .then((newUser) => {
+        setCurrentUser(newUser);
+        closeAllPopups();
+      })
       .catch((err) => console.log(err))
       .finally(() => setLoading(false));
-    closeAllPopups();
   }
 
   function handleUpdateAvatar(avatar) {
@@ -124,10 +119,12 @@ function App() {
     setLoading(true);
     api
       .postCard(card)
-      .then((newCard) => setCards([newCard, ...cards]))
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+        closeAllPopups();
+      })
       .catch((err) => console.log(err))
       .finally(() => setLoading(false));
-    closeAllPopups();
   }
 
   return (
