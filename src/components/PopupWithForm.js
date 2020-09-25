@@ -1,26 +1,24 @@
 import React from 'react'
 import esc from "../images/Close_Icon.png";
+function PopupWithForm(props) {
+  const { name, isOpen, title, children, submit, onClose, onSubmit, disabled, isLoading, } = props;
 
-class PopupWithForm extends React.Component {
-  render() {
-    return (
-      <section className={`popup popup_${this.props.name} ${
-        this.props.isOpen && 'popup_opened'
-        }`}>
-        <div className="popup__container">
-          <h3 className="popup__title">{this.props.title}</h3>
-          <form className={`popup__form popup__form_${this.props.name}`} action="#">
-            {this.props.children}
-            <button className="popup__button" type="submit">{this.props.submit}</button>
-            <button className="popup__button-esc" type="button">
-              <img src={esc} alt="кнопка закрытия окна редиктирования" onClick={this.props.onClose}
-                className="popup__esc" />
-            </button>
-          </form>
-        </div>
-      </section>
-    );
-  }
+  return (
+    <section className={`popup popup_${name} ${isOpen && 'popup_opened'
+      }`}>
+      <div className="popup__container">
+        <h3 className="popup__title">{title}</h3>
+        <form className={`popup__form popup__form_${name}`} action="#" onSubmit={onSubmit}>
+          {children}
+          <button className="popup__button" type="submit" disabled={disabled}>{isLoading ? `Сохранение...` : submit}</button>
+          <button className="popup__button-esc" type="button">
+            <img src={esc} alt="кнопка закрытия окна редиктирования" onClick={onClose}
+              className="popup__esc" />
+          </button>
+        </form>
+      </div>
+    </section>
+  )
 }
 
 export default PopupWithForm;

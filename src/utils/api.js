@@ -24,24 +24,24 @@ export class Api {
       }).then(this._handleCheck);
     }
   
-    patchUserInfo(name, about) {
+    patchUserInfo(userData) {
       return fetch(`${this._baseUrl}/users/me`, {
         method: "PATCH",
         headers: this._headers,
         body: JSON.stringify({
-          name,
-          about,
+          name: userData.name,
+          about: userData.about,
         }),
       }).then(this._handleCheck);
     }
   
-    postCard(name, link) {
+    postCard(newCard) {
       return fetch(`${this._baseUrl}/cards`, {
         method: "POST",
         headers: this._headers,
         body: JSON.stringify({
-          name,
-          link,
+          name: newCard.name,
+          link: newCard.link,
         }),
       }).then(this._handleCheck);
     }
@@ -53,16 +53,9 @@ export class Api {
       }).then(this._handleCheck);
     }
   
-    putLike(cardId) {
+    changeLikeCardStatus(cardId, isLiked) {
       return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-        method: "PUT",
-        headers: this._headers,
-      }).then(this._handleCheck);
-    }
-  
-    deleteLike(cardId) {
-      return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-        method: "DELETE",
+        method: `${isLiked ? 'PUT' : 'DELETE'}`,
         headers: this._headers,
       }).then(this._handleCheck);
     }
@@ -71,9 +64,9 @@ export class Api {
       return fetch(`${this._baseUrl}/users/me/avatar/`, {
         method: "PATCH",
         headers: this._headers,
-        body: JSON.stringify(
-          avatar,
-        ),
+        body: JSON.stringify({
+          avatar: avatar.url ,
+        }),
       }).then(this._handleCheck);
     }
   }
